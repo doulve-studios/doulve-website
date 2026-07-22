@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doulve — Brand Management & Web Design</title>
-  <meta name="description" content="Doulve builds high-converting websites and manages Meta and Google ad campaigns for growing brands.">
+  <title>Doulve — Brand, Web &amp; Media</title>
+  <meta name="description" content="Doulve builds brand systems, websites, and Meta/Google ad campaigns for companies who'd rather not blend in.">
 
-  <!-- A clean, modern font from Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -17,48 +17,53 @@
   <!-- ===== HEADER ===== -->
   <header class="site-header">
     <div class="container header-inner">
-      <a href="#top" class="logo">Doulve</a>
+      <a href="#top" class="logo">DOULVE<span class="logo-chip" aria-hidden="true"></span></a>
       <nav class="nav">
-        <a href="#services">Services</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a href="#services"><span>Services</span></a>
+        <a href="#about"><span>About</span></a>
+        <a href="#contact"><span>Contact</span></a>
       </nav>
     </div>
   </header>
 
   <!-- ===== HERO ===== -->
   <section id="top" class="hero">
-    <div class="container hero-inner">
-      <h1>We build brands that <span class="accent">perform.</span></h1>
-      <p class="hero-tagline">
-        Doulve designs high-converting websites and manages Meta &amp; Google ad
-        campaigns for brands ready to grow.
-      </p>
-      <a href="#contact" class="btn btn-primary">Get in touch</a>
+    <div class="container">
+      <p class="kicker">Brand &nbsp;/&nbsp; Web &nbsp;/&nbsp; Media Buying</p>
+
+      <h1 class="hero-headline">
+        <span class="line">Look bold.</span>
+        <span class="line">Sell <span class="hl">harder.</span></span>
+      </h1>
+
+      <div class="hero-foot">
+        <p class="hero-sub">
+          Brand strategy, web design, and Meta/Google ad management —
+          built for local shops, startups, and brands ready for their next act.
+        </p>
+        <a href="#contact" class="btn btn-primary">Start a project →</a>
+      </div>
     </div>
   </section>
 
   <!-- ===== SERVICES ===== -->
   <section id="services" class="services">
     <div class="container">
-      <h2>What we do</h2>
-      <p class="section-intro">Three ways we help your brand grow online.</p>
+      <p class="eyebrow">What we do</p>
 
-      <div class="services-grid">
-        <div class="service-card">
-          <h3>Website Design</h3>
-          <p>Custom, high-converting websites designed to turn visitors into customers.</p>
-        </div>
+      <div class="service-row" data-reveal>
+        <h3>Brand Strategy</h3>
+        <p>Positioning, naming, and identity systems built to hold up across every touchpoint — not just a logo.</p>
+      </div>
 
-        <div class="service-card">
-          <h3>Meta Ads Management</h3>
-          <p>Strategic Facebook &amp; Instagram campaigns that reach the right audience and drive real results.</p>
-        </div>
+      <div class="service-row" data-reveal>
+        <h3>Website Design</h3>
+        <p>Custom, high-converting websites designed to turn visitors into customers.</p>
+      </div>
 
-        <div class="service-card">
-          <h3>Google Ads Management</h3>
-          <p>Search and display campaigns optimized to capture demand and maximize your ad spend.</p>
-        </div>
+      <div class="service-row" data-reveal>
+        <h3>Performance Advertising</h3>
+        <p>Meta and Google campaigns engineered to reach the right audience and prove their ROI.</p>
       </div>
     </div>
   </section>
@@ -66,8 +71,9 @@
   <!-- ===== ABOUT ===== -->
   <section id="about" class="about">
     <div class="container about-inner">
-      <h2>About Doulve</h2>
-      <p>
+      <p class="eyebrow eyebrow--dark">About Doulve</p>
+      <p class="about-lede">We learned brand-building behind the camera, not behind a dashboard.</p>
+      <p class="about-body">
         Doulve was founded on a background in media production and digital
         advertising. We've spent years behind the scenes helping brands tell
         their story and reach the right audience — now we bring that same
@@ -80,22 +86,31 @@
   <!-- ===== CONTACT ===== -->
   <section id="contact" class="contact">
     <div class="container contact-inner">
-      <h2>Let's talk</h2>
-      <p class="section-intro">
-        Ready to grow your brand? Email us at
-        <a class="email-link" href="mailto:hello@doulve.com">hello@doulve.com</a>
-        or send a message below.
-      </p>
+      <div class="contact-intro">
+        <p class="eyebrow">Get in touch</p>
+        <h2>Let's build<br>something.</h2>
+        <p class="contact-note">
+          Ready to grow your brand? Email
+          <a class="email-link" href="mailto:hello@doulve.com">hello@doulve.com</a>
+          or send a message.
+        </p>
+      </div>
 
       <form class="contact-form" action="#" method="POST">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required>
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
 
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="5" required></textarea>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
 
         <button type="submit" class="btn btn-primary">Send message</button>
       </form>
@@ -104,10 +119,12 @@
 
   <!-- ===== FOOTER ===== -->
   <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2026 Doulve. All rights reserved.</p>
+    <div class="container footer-inner">
+      <a href="#top" class="logo logo--small">DOULVE<span class="logo-chip" aria-hidden="true"></span></a>
+      <p class="mono-label">© 2026 Doulve — Brand / Web / Media</p>
     </div>
   </footer>
 
+  <script src="script.js"></script>
 </body>
 </html>
