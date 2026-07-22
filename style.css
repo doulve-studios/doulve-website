@@ -146,6 +146,13 @@ a {
   color: var(--ink);
   display: inline-flex;
   align-items: center;
+  gap: 9px;
+}
+
+.logo-mark {
+  height: 26px;
+  width: auto;
+  display: block;
 }
 
 .logo-chip {
@@ -539,5 +546,23 @@ a {
 
   .header-inner {
     gap: 12px;
+  }
+
+  .logo {
+    font-size: 1.15rem;
+    gap: 6px;
+  }
+
+  .logo-mark {
+    height: 18px;
+  }
+
+  .nav {
+    gap: 10px;
+  }
+
+  .nav a {
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
   }
 }
