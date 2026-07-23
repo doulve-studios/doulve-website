@@ -85,13 +85,25 @@ a {
 
 
 /* ============================================
-   1b. BLOB FIELD — soft, blurred color accents living
-   behind everything. Fixed, so they never duplicate per
-   section, and free to spill outside the rounded glass
+   1b. BLOB FIELD — clean, high-resolution gradient shapes,
+   living behind everything. Fixed, so they never duplicate
+   per section, and free to spill outside the rounded glass
    cards' edges (that spillover, visible in the gaps
    around/between cards, is what sells the "lava lamp"
    feel from the reference). Drift is tied to scroll via
    GSAP ScrollTrigger scrub — see initBlobDrift in script.js.
+
+   Deliberately NO filter:blur() on the blobs themselves —
+   blur is exclusively a property of the glass panels'
+   backdrop-filter (see .glass-panel below), which blurs
+   whatever sits behind a given panel, blob included. That
+   means a blob reads crisp/HD wherever it's in open page
+   background, and blurred only in the exact areas where a
+   frosted panel happens to sit on top of it — the blur is a
+   property of the glass, not the blob. Each gradient fades
+   to transparent at its outer edge so the shape still reads
+   as a soft-edged blob rather than a hard-edged disc, using
+   the gradient itself (not a blur filter) to do that softening.
    ============================================ */
 
 .blob-field {
@@ -113,8 +125,7 @@ a {
   height: 220px;
   top: -60px;
   left: -60px;
-  background: radial-gradient(circle at 35% 35%, #C4B5FD 0%, var(--violet) 60%, #6D28D9 100%);
-  filter: blur(50px);
+  background: radial-gradient(circle at 35% 35%, #C4B5FD 0%, var(--violet) 55%, transparent 100%);
   opacity: 0.75;
 }
 
@@ -123,8 +134,7 @@ a {
   height: 520px;
   top: 140px;
   left: -220px;
-  background: radial-gradient(circle at 40% 40%, #EEFFA8 0%, var(--lime) 55%, #9BD400 100%);
-  filter: blur(85px);
+  background: radial-gradient(circle at 40% 40%, #EEFFA8 0%, var(--lime) 50%, transparent 100%);
   opacity: 0.6;
 }
 
@@ -133,8 +143,7 @@ a {
   height: 640px;
   top: -180px;
   right: -220px;
-  background: radial-gradient(circle at 35% 35%, #C4B5FD 0%, var(--violet) 55%, #6D28D9 100%);
-  filter: blur(95px);
+  background: radial-gradient(circle at 35% 35%, #C4B5FD 0%, var(--violet) 50%, transparent 100%);
   opacity: 0.65;
 }
 
@@ -143,8 +152,7 @@ a {
   height: 600px;
   bottom: -180px;
   left: -180px;
-  background: radial-gradient(circle at 40% 40%, #EEFFA8 0%, var(--lime) 55%, #9BD400 100%);
-  filter: blur(90px);
+  background: radial-gradient(circle at 40% 40%, #EEFFA8 0%, var(--lime) 50%, transparent 100%);
   opacity: 0.6;
 }
 
@@ -153,8 +161,7 @@ a {
   height: 440px;
   bottom: -140px;
   right: 40px;
-  background: radial-gradient(circle at 35% 35%, #C4B5FD 0%, var(--violet) 55%, #6D28D9 100%);
-  filter: blur(85px);
+  background: radial-gradient(circle at 35% 35%, #C4B5FD 0%, var(--violet) 50%, transparent 100%);
   opacity: 0.65;
 }
 
@@ -163,8 +170,7 @@ a {
   height: 360px;
   bottom: -160px;
   right: -140px;
-  background: radial-gradient(circle at 40% 40%, #EEFFA8 0%, var(--lime) 55%, #9BD400 100%);
-  filter: blur(75px);
+  background: radial-gradient(circle at 40% 40%, #EEFFA8 0%, var(--lime) 50%, transparent 100%);
   opacity: 0.6;
 }
 
