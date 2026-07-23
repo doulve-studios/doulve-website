@@ -3,18 +3,18 @@
    ============================================ */
 
 :root {
-  --paper:  #F5F0E6;  /* warm cream background — the neutral ground the color pops against */
-  --ink:    #15141A;  /* near-black — dark section background, primary text */
+  --paper: #F4F1E8;  /* off-white — base color, most of the page */
+  --ink:   #12120F;  /* near-black — text, borders, structural lines */
 
-  --pink:   #FF71CE;  /* Memphis accent set — used across the page, never a single flare */
-  --yellow: #FFCE5C;
-  --teal:   #86CCCA;
-  --purple: #6A7BB4;
+  --olive: #5C6B32;  /* primary accent — buttons, key highlights, small shapes */
+  --moss:  #3A4322;  /* deep olive — accent depth/hover, pairs with olive */
+  --plum:  #5A3B52;  /* secondary accent — used sparingly, for a rare pop */
+  --bone:  #D9D2BC;  /* subtle neutral — quiet fills, not a "color" moment */
 
-  --text-muted:         #6B6558;  /* muted ink, for body copy on paper */
-  --text-muted-inverse: #B9B4AA;  /* muted paper, for body copy on ink */
-  --hairline:        rgba(21, 20, 26, 0.14);
-  --hairline-invert: rgba(245, 240, 230, 0.16);
+  --text-muted:         rgba(18, 18, 15, 0.62);   /* muted ink, for body copy on paper */
+  --text-muted-inverse: rgba(244, 241, 232, 0.65); /* muted paper, for body copy on ink */
+  --hairline:        rgba(18, 18, 15, 0.14);
+  --hairline-invert: rgba(244, 241, 232, 0.16);
 
   --font-display: 'Bricolage Grotesque', sans-serif;
   --font-body: 'Work Sans', sans-serif;
@@ -75,19 +75,20 @@ a {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--pink);
+  color: var(--olive);
   margin-bottom: 22px;
 }
 
 .eyebrow--dark {
-  color: var(--teal);
+  color: var(--bone);
 }
 
 /* The single highlight device — a marker-block behind one word.
-   Used exactly once, in the hero, so it stays a signature and not a habit. */
+   Used exactly once, in the hero, so it stays a signature and not a habit —
+   and the natural home for the secondary accent, since it never repeats. */
 .hl {
-  background: var(--yellow);
-  color: var(--ink);
+  background: var(--plum);
+  color: var(--paper);
   padding: 0 0.1em;
   display: inline-block;
   transform: rotate(-2deg);
@@ -114,10 +115,10 @@ a {
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
-.is-pink   { background: var(--pink);   color: var(--pink); }
-.is-yellow { background: var(--yellow); color: var(--yellow); }
-.is-teal   { background: var(--teal);   color: var(--teal); }
-.is-purple { background: var(--purple); color: var(--purple); }
+.is-olive { background: var(--olive); color: var(--olive); }
+.is-moss  { background: var(--moss);  color: var(--moss); }
+.is-plum  { background: var(--plum);  color: var(--plum); }
+.is-bone  { background: var(--bone);  color: var(--bone); }
 
 /* Inline marker dot used next to service headings — not absolutely positioned */
 .service-shape {
@@ -146,14 +147,14 @@ a {
 }
 
 .btn-primary {
-  background-color: var(--yellow);
-  color: var(--ink);
+  background-color: var(--olive);
+  color: var(--paper);
   border: 3px solid var(--ink);
   box-shadow: 5px 5px 0 var(--ink);
 }
 
 .btn-primary:hover {
-  background-color: var(--pink);
+  background-color: var(--moss);
   transform: translate(-3px, -3px) rotate(-1deg);
   box-shadow: 8px 8px 0 var(--ink);
 }
@@ -204,7 +205,7 @@ a {
 .logo-chip {
   width: 12px;
   height: 12px;
-  background: var(--pink);
+  background: var(--olive);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   margin-left: 4px;
   transform: translateY(-10px) rotate(8deg);
@@ -215,8 +216,10 @@ a {
   color: var(--paper);
 }
 
+/* Footer's chip echoes the hero highlight — a small closing bookend for
+   the one place plum is allowed to repeat. */
 .logo--small .logo-chip {
-  background: var(--yellow);
+  background: var(--plum);
 }
 
 .nav {
@@ -245,14 +248,11 @@ a {
   bottom: 0;
   width: 100%;
   height: 3px;
-  background: var(--pink);
+  background: var(--olive);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.25s ease;
 }
-
-.nav a:nth-child(2) span::after { background: var(--teal); }
-.nav a:nth-child(3) span::after { background: var(--purple); }
 
 .nav a:hover span::after {
   transform: scaleX(1);
@@ -308,7 +308,7 @@ a {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--purple);
+  color: var(--olive);
   margin-bottom: 28px;
   opacity: 0;
 }
@@ -392,12 +392,8 @@ a {
   transition: transform 0.3s ease;
 }
 
-.service-row:nth-of-type(1)::before { background: var(--pink); }
-.service-row:nth-of-type(1)::after  { background: var(--pink); }
-.service-row:nth-of-type(2)::before { background: var(--yellow); }
-.service-row:nth-of-type(2)::after  { background: var(--yellow); }
-.service-row:nth-of-type(3)::before { background: var(--teal); }
-.service-row:nth-of-type(3)::after  { background: var(--teal); }
+.service-row::before { background: var(--olive); }
+.service-row::after  { background: var(--olive); }
 
 .service-row:hover::before,
 .service-row:hover::after {
@@ -406,11 +402,11 @@ a {
 }
 
 .service-row:hover {
-  color: var(--ink);
+  color: var(--paper);
 }
 
 .service-row:hover p {
-  color: rgba(21, 20, 26, 0.72);
+  color: rgba(244, 241, 232, 0.78);
 }
 
 .service-row h3 {
@@ -506,7 +502,7 @@ a {
 .email-link {
   color: var(--ink);
   font-weight: 600;
-  border-bottom: 2px solid var(--pink);
+  border-bottom: 2px solid var(--olive);
 }
 
 .contact-form {
@@ -550,9 +546,9 @@ a {
   outline: none;
 }
 
-.field:nth-of-type(1) input:focus { border-color: var(--pink); }
-.field:nth-of-type(2) input:focus { border-color: var(--teal); }
-.field:nth-of-type(3) textarea:focus { border-color: var(--purple); }
+.field:nth-of-type(1) input:focus { border-color: var(--olive); }
+.field:nth-of-type(2) input:focus { border-color: var(--moss); }
+.field:nth-of-type(3) textarea:focus { border-color: var(--plum); }
 
 .contact-form button {
   margin-top: 8px;
@@ -566,7 +562,7 @@ a {
 
 .site-footer {
   background-color: var(--ink);
-  border-top: 3px solid var(--pink);
+  border-top: 3px solid var(--plum);
   padding: 28px 0;
 }
 
