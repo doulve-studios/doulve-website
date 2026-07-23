@@ -3,14 +3,18 @@
    ============================================ */
 
 :root {
-  --paper: #EDE8DD;  /* main background — warm, muted neutral */
-  --ink:   #15141A;  /* near-black — dark section background, primary text */
-  --flare: #FF4D1C;  /* the one accent — used boldly, never scattered thin */
+  --paper:  #F5F0E6;  /* warm cream background — the neutral ground the color pops against */
+  --ink:    #15141A;  /* near-black — dark section background, primary text */
+
+  --pink:   #FF71CE;  /* Memphis accent set — used across the page, never a single flare */
+  --yellow: #FFCE5C;
+  --teal:   #86CCCA;
+  --purple: #6A7BB4;
 
   --text-muted:         #6B6558;  /* muted ink, for body copy on paper */
   --text-muted-inverse: #B9B4AA;  /* muted paper, for body copy on ink */
   --hairline:        rgba(21, 20, 26, 0.14);
-  --hairline-invert: rgba(237, 232, 221, 0.16);
+  --hairline-invert: rgba(245, 240, 230, 0.16);
 
   --font-display: 'Bricolage Grotesque', sans-serif;
   --font-body: 'Work Sans', sans-serif;
@@ -33,6 +37,7 @@ body {
   background-color: var(--paper);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 h1, h2, h3 {
@@ -65,23 +70,62 @@ a {
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 0.78rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--text-muted);
+  color: var(--pink);
   margin-bottom: 22px;
 }
 
 .eyebrow--dark {
-  color: var(--text-muted-inverse);
+  color: var(--teal);
 }
 
 /* The single highlight device — a marker-block behind one word.
    Used exactly once, in the hero, so it stays a signature and not a habit. */
 .hl {
-  background: var(--flare);
+  background: var(--yellow);
   color: var(--ink);
   padding: 0 0.1em;
   display: inline-block;
+  transform: rotate(-2deg);
+}
+
+
+/* ============================================
+   1b. SHAPES — the Memphis signature: scattered,
+   asymmetric, decorative-only geometry.
+   ============================================ */
+
+.shape {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  display: block;
+}
+
+.shape--circle {
+  border-radius: 50%;
+}
+
+.shape--triangle {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.is-pink   { background: var(--pink);   color: var(--pink); }
+.is-yellow { background: var(--yellow); color: var(--yellow); }
+.is-teal   { background: var(--teal);   color: var(--teal); }
+.is-purple { background: var(--purple); color: var(--purple); }
+
+/* Inline marker dot used next to service headings — not absolutely positioned */
+.service-shape {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-right: 12px;
+  vertical-align: middle;
+  transform: translateY(-2px);
 }
 
 
@@ -92,24 +136,24 @@ a {
 .btn {
   display: inline-block;
   padding: 18px 34px;
-  font-weight: 600;
+  font-weight: 700;
   font-family: var(--font-body);
   font-size: 1rem;
-  border: 1px solid transparent;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .btn-primary {
-  background-color: var(--flare);
+  background-color: var(--yellow);
   color: var(--ink);
+  border: 3px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
 }
 
 .btn-primary:hover {
-  background-color: var(--ink);
-  color: var(--paper);
-  border-color: var(--flare);
-  transform: translateY(-2px);
+  background-color: var(--pink);
+  transform: translate(-3px, -3px) rotate(-1deg);
+  box-shadow: 8px 8px 0 var(--ink);
 }
 
 .btn-primary:focus-visible {
@@ -124,7 +168,7 @@ a {
 
 .site-header {
   background-color: var(--paper);
-  border-bottom: 1px solid var(--hairline);
+  border-bottom: 3px solid var(--ink);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -156,16 +200,21 @@ a {
 }
 
 .logo-chip {
-  width: 9px;
-  height: 9px;
-  background: var(--flare);
+  width: 12px;
+  height: 12px;
+  background: var(--pink);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   margin-left: 4px;
-  transform: translateY(-10px);
+  transform: translateY(-10px) rotate(8deg);
 }
 
 .logo--small {
   font-size: 1.1rem;
   color: var(--paper);
+}
+
+.logo--small .logo-chip {
+  background: var(--yellow);
 }
 
 .nav {
@@ -176,6 +225,7 @@ a {
 .nav a {
   font-family: var(--font-mono);
   font-size: 0.78rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--ink);
@@ -192,12 +242,15 @@ a {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 1px;
-  background: var(--flare);
+  height: 3px;
+  background: var(--pink);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.25s ease;
 }
+
+.nav a:nth-child(2) span::after { background: var(--teal); }
+.nav a:nth-child(3) span::after { background: var(--purple); }
 
 .nav a:hover span::after {
   transform: scaleX(1);
@@ -209,16 +262,47 @@ a {
    ============================================ */
 
 .hero {
+  position: relative;
+  overflow: hidden;
   background-color: var(--paper);
   padding: 120px 0 100px;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-shape-1 {
+  width: 120px;
+  height: 120px;
+  top: 6%;
+  right: 8%;
+}
+
+.hero-shape-2 {
+  width: 64px;
+  height: 64px;
+  top: 62%;
+  left: 3%;
+  transform: rotate(-10deg);
+}
+
+.hero-shape-3 {
+  width: 150px;
+  height: auto;
+  bottom: 6%;
+  right: 22%;
+  opacity: 0.85;
 }
 
 .kicker {
   font-family: var(--font-mono);
   font-size: 0.8rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--text-muted);
+  color: var(--purple);
   margin-bottom: 28px;
   opacity: 0;
   animation: rise 0.6s ease forwards;
@@ -256,7 +340,7 @@ a {
   flex-wrap: wrap;
   margin-top: 64px;
   padding-top: 40px;
-  border-top: 1px solid var(--hairline);
+  border-top: 3px solid var(--ink);
   opacity: 0;
   animation: rise 0.7s ease forwards;
   animation-delay: 0.4s;
@@ -283,7 +367,7 @@ a {
   grid-template-columns: minmax(220px, 0.9fr) 1.3fr;
   gap: 40px;
   padding: 48px 0;
-  border-bottom: 1px solid var(--hairline);
+  border-bottom: 3px solid var(--ink);
   cursor: default;
   opacity: 0;
   transform: translateY(18px);
@@ -303,7 +387,6 @@ a {
   left: 50%;
   width: 100vmax;
   transform: translateX(-50%);
-  background: var(--ink);
   z-index: -1;
   opacity: 0;
   transition: opacity 0.25s ease;
@@ -315,12 +398,18 @@ a {
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: var(--flare);
+  height: 4px;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
 }
+
+.service-row:nth-of-type(1)::before { background: var(--pink); }
+.service-row:nth-of-type(1)::after  { background: var(--pink); }
+.service-row:nth-of-type(2)::before { background: var(--yellow); }
+.service-row:nth-of-type(2)::after  { background: var(--yellow); }
+.service-row:nth-of-type(3)::before { background: var(--teal); }
+.service-row:nth-of-type(3)::after  { background: var(--teal); }
 
 .service-row:hover::before,
 .service-row:hover::after {
@@ -329,15 +418,17 @@ a {
 }
 
 .service-row:hover {
-  color: var(--paper);
+  color: var(--ink);
 }
 
 .service-row:hover p {
-  color: var(--text-muted-inverse);
+  color: rgba(21, 20, 26, 0.72);
 }
 
 .service-row h3 {
   font-size: clamp(1.6rem, 3vw, 2.4rem);
+  display: flex;
+  align-items: center;
 }
 
 .service-row p {
@@ -353,12 +444,32 @@ a {
    ============================================ */
 
 .about {
+  position: relative;
+  overflow: hidden;
   background-color: var(--ink);
   color: var(--paper);
   padding: 140px 0;
 }
 
+.about-shape-1 {
+  width: 240px;
+  height: 240px;
+  top: -70px;
+  right: -70px;
+  opacity: 0.16;
+}
+
+.about-shape-2 {
+  width: 260px;
+  height: auto;
+  bottom: 30px;
+  left: -20px;
+  opacity: 0.2;
+}
+
 .about-inner {
+  position: relative;
+  z-index: 1;
   max-width: 800px;
 }
 
@@ -407,7 +518,7 @@ a {
 .email-link {
   color: var(--ink);
   font-weight: 600;
-  border-bottom: 2px solid var(--flare);
+  border-bottom: 2px solid var(--pink);
 }
 
 .contact-form {
@@ -434,7 +545,7 @@ a {
 .contact-form textarea {
   background: transparent;
   border: none;
-  border-bottom: 1px solid var(--hairline);
+  border-bottom: 2px solid var(--hairline);
   padding: 8px 2px;
   color: var(--ink);
   font-family: var(--font-body);
@@ -449,8 +560,11 @@ a {
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
-  border-color: var(--flare);
 }
+
+.field:nth-of-type(1) input:focus { border-color: var(--pink); }
+.field:nth-of-type(2) input:focus { border-color: var(--teal); }
+.field:nth-of-type(3) textarea:focus { border-color: var(--purple); }
 
 .contact-form button {
   margin-top: 8px;
@@ -464,7 +578,7 @@ a {
 
 .site-footer {
   background-color: var(--ink);
-  border-top: 1px solid var(--hairline-invert);
+  border-top: 3px solid var(--pink);
   padding: 28px 0;
 }
 
@@ -522,6 +636,16 @@ a {
     grid-template-columns: 1fr;
     gap: 12px;
   }
+
+  .hero-shape-1 {
+    width: 90px;
+    height: 90px;
+  }
+
+  .about-shape-1 {
+    width: 180px;
+    height: 180px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -564,5 +688,16 @@ a {
   .nav a {
     font-size: 0.68rem;
     letter-spacing: 0.03em;
+  }
+
+  .hero-shape-2,
+  .about-shape-2 {
+    display: none;
+  }
+
+  .hero-shape-3 {
+    width: 100px;
+    bottom: 4%;
+    right: 8%;
   }
 }
