@@ -38,11 +38,15 @@ if (motionDisabled) {
 // ---- Hero entrance: headline, tagline, and button stagger in on load ----
 // power2.out (no bounce) keeps this reading as considered, not playful —
 // overlapping the three tweens keeps total entrance time to ~1.1s.
+// Uses fromTo (not from): these elements are permanently opacity:0 in CSS
+// (so they never flash visible before GSAP loads), and .from() would read
+// that same opacity:0 as its "current/end" state, animating 0 -> 0 — a
+// silent no-op. fromTo states both ends explicitly instead of trusting CSS.
 function initHeroTimeline() {
   const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
-  tl.from('.kicker', { opacity: 0, y: 20, duration: 0.5 })
-    .from('.hero-headline .line', { opacity: 0, y: 28, duration: 0.6, stagger: 0.12 }, '-=0.3')
-    .from('.hero-foot', { opacity: 0, y: 20, duration: 0.5 }, '-=0.2');
+  tl.fromTo('.kicker', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 })
+    .fromTo('.hero-headline .line', { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.12 }, '-=0.3')
+    .fromTo('.hero-foot', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, '-=0.2');
 }
 
 // ---- Ambient hero shape drift: slow, continuous, never distracting ----
@@ -71,28 +75,37 @@ function initAmbientDrift() {
 }
 
 // ---- Scroll-triggered reveals through the rest of the page ----
+// All use fromTo for the same reason as the hero timeline above: these
+// targets are permanently opacity:0 in CSS, so .from() would have nothing
+// to animate to.
 function initScrollReveals() {
   // Services — each row is its own trigger. Rows are spread down a tall
   // section, so a single parent-with-stagger would fire row 2/3 too early.
   gsap.utils.toArray('[data-reveal]').forEach((row) => {
-    gsap.from(row, {
-      opacity: 0,
-      y: 24,
-      duration: 0.5,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: row, start: 'top 85%', toggleActions: 'play none none none' },
-    });
+    gsap.fromTo(row,
+      { opacity: 0, y: 24 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: row, start: 'top 85%', toggleActions: 'play none none none' },
+      }
+    );
   });
 
   // About — a tight 3-child cluster (eyebrow, lede, body) under one container.
-  gsap.from('.about-inner > *', {
-    opacity: 0,
-    y: 24,
-    duration: 0.5,
-    stagger: 0.08,
-    ease: 'power2.out',
-    scrollTrigger: { trigger: '.about-inner', start: 'top 80%', toggleActions: 'play none none none' },
-  });
+  gsap.fromTo('.about-inner > *',
+    { opacity: 0, y: 24 },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      stagger: 0.08,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: '.about-inner', start: 'top 80%', toggleActions: 'play none none none' },
+    }
+  );
 
   // About's decorative shapes get subtle parallax instead of ambient drift —
   // decorative layer only, small delta, never applied to text.
@@ -108,22 +121,28 @@ function initScrollReveals() {
   });
 
   // Contact — two staggered clusters: intro copy, then form fields.
-  gsap.from('.contact-intro > *', {
-    opacity: 0,
-    y: 24,
-    duration: 0.5,
-    stagger: 0.08,
-    ease: 'power2.out',
-    scrollTrigger: { trigger: '.contact-intro', start: 'top 85%', toggleActions: 'play none none none' },
-  });
-  gsap.from('.contact-form .field, .contact-form button', {
-    opacity: 0,
-    y: 20,
-    duration: 0.45,
-    stagger: 0.08,
-    ease: 'power2.out',
-    scrollTrigger: { trigger: '.contact-form', start: 'top 85%', toggleActions: 'play none none none' },
-  });
+  gsap.fromTo('.contact-intro > *',
+    { opacity: 0, y: 24 },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      stagger: 0.08,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: '.contact-intro', start: 'top 85%', toggleActions: 'play none none none' },
+    }
+  );
+  gsap.fromTo('.contact-form .field, .contact-form button',
+    { opacity: 0, y: 20 },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.45,
+      stagger: 0.08,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: '.contact-form', start: 'top 85%', toggleActions: 'play none none none' },
+    }
+  );
 
   // Footer is deliberately left un-animated — a copyright line has nothing
   // to gain from motion.
