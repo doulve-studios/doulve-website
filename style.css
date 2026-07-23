@@ -19,6 +19,8 @@
   --font-display: 'Bricolage Grotesque', sans-serif;
   --font-body: 'Work Sans', sans-serif;
   --font-mono: 'Space Mono', monospace;
+
+  --header-h: 78px; /* fallback estimate; corrected by script.js once the header renders */
 }
 
 * {
@@ -265,7 +267,11 @@ a {
   position: relative;
   overflow: hidden;
   background-color: var(--paper);
-  padding: 120px 0 100px;
+  display: grid;
+  align-items: center;
+  padding: 60px 0;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100dvh - var(--header-h));
 }
 
 .hero .container {
@@ -305,7 +311,6 @@ a {
   color: var(--purple);
   margin-bottom: 28px;
   opacity: 0;
-  animation: rise 0.6s ease forwards;
 }
 
 .hero-headline {
@@ -317,19 +322,10 @@ a {
 .hero-headline .line {
   display: block;
   opacity: 0;
-  animation: rise 0.7s cubic-bezier(0.16, 0.84, 0.44, 1) forwards;
 }
-
-.hero-headline .line:nth-child(1) { animation-delay: 0.08s; }
-.hero-headline .line:nth-child(2) { animation-delay: 0.2s; }
 
 .hero-headline .hl {
   padding: 0 0.08em;
-}
-
-@keyframes rise {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 .hero-foot {
@@ -342,8 +338,6 @@ a {
   padding-top: 40px;
   border-top: 3px solid var(--ink);
   opacity: 0;
-  animation: rise 0.7s ease forwards;
-  animation-delay: 0.4s;
 }
 
 .hero-sub {
@@ -371,12 +365,6 @@ a {
   cursor: default;
   opacity: 0;
   transform: translateY(18px);
-}
-
-.service-row.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .service-row::before {
@@ -597,28 +585,32 @@ a {
 
 /* ============================================
    9. MOTION PREFERENCES
+   script.js adds this class when the user prefers reduced motion
+   OR the GSAP CDN failed to load — one flag, one fallback state,
+   so content can never end up stuck invisible.
    ============================================ */
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+.motion-disabled {
+  scroll-behavior: auto;
+}
 
-  .kicker,
-  .hero-headline .line,
-  .hero-foot,
-  .service-row {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
+.motion-disabled .kicker,
+.motion-disabled .hero-headline .line,
+.motion-disabled .hero-foot,
+.motion-disabled [data-reveal],
+.motion-disabled .about-inner > *,
+.motion-disabled .contact-intro > *,
+.motion-disabled .contact-form .field,
+.motion-disabled .contact-form button {
+  opacity: 1 !important;
+  transform: none !important;
+}
 
-  .btn-primary,
-  .nav a span::after,
-  .service-row::before,
-  .service-row::after {
-    transition: none;
-  }
+.motion-disabled .btn-primary,
+.motion-disabled .nav a span::after,
+.motion-disabled .service-row::before,
+.motion-disabled .service-row::after {
+  transition: none;
 }
 
 
@@ -654,7 +646,7 @@ a {
   }
 
   .hero {
-    padding: 88px 0 72px;
+    padding: 40px 0;
   }
 
   .hero-foot {
