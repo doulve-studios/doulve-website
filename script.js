@@ -54,17 +54,31 @@ function initHeroTimeline() {
 // so they drift continuously rather than looping — a background layer only,
 // never touching text or interactive elements (pointer-events:none on the
 // wrapper, z-index:-1 keeps them behind all content regardless of DOM order).
+//
+// The drift distances here are deliberately large (300-700px). A first pass
+// used ~150-250px tied to the whole document's scroll range, which made the
+// motion technically scroll-linked but imperceptible during any single
+// normal scroll — the total range only completes once you've scrolled the
+// *entire* page, so a page-length of a few thousand pixels made each on-screen
+// scroll advance the tween by a barely-visible sliver. Scaling the distances
+// up (and giving every blob a distinct vector/speed) is what actually makes
+// the "lava lamp" drift read as obvious motion rather than a rounding error.
 function initBlobDrift() {
-  gsap.to('.blob--violet', {
-    x: 140, y: 220, scale: 1.15,
-    ease: 'none',
-    scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 1 },
-  });
+  const drifts = [
+    { sel: '.blob-1', x: 260, y: 340, scale: 1.3 },
+    { sel: '.blob-2', x: -320, y: 420, scale: 1.2 },
+    { sel: '.blob-3', x: -380, y: 520, scale: 1.15 },
+    { sel: '.blob-4', x: 340, y: -460, scale: 1.2 },
+    { sel: '.blob-5', x: -300, y: -400, scale: 1.25 },
+    { sel: '.blob-6', x: 280, y: -360, scale: 1.15 },
+  ];
 
-  gsap.to('.blob--lime', {
-    x: -160, y: -260, scale: 1.1,
-    ease: 'none',
-    scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 1 },
+  drifts.forEach(({ sel, x, y, scale }) => {
+    gsap.to(sel, {
+      x, y, scale,
+      ease: 'none',
+      scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.6 },
+    });
   });
 }
 

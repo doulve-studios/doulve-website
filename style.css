@@ -5,19 +5,20 @@
 :root {
   --base:  #FAFAFC;  /* near-white — page background, base layer under blobs/glass */
   --ink:   #1B1625;  /* near-black w/ faint purple undertone — body text, headings, nav */
-  --deep-purple: #3A1568; /* hero headline color only */
+  --deep-purple: #3A1568;  /* headline, line 1 */
+  --soft-lavender: #8A6FC9; /* headline, line 2 — the reference's two-tone treatment */
 
   --violet:       #8B5CF6; /* vibrant accent — blobs + small decorative use only, never text-on-fill */
-  --violet-deep:  #6D28D9; /* button fill — deep enough for white text at AA contrast */
-  --violet-hover: #5B21B6; /* button hover — darkens further */
+  --violet-deep:  #6D28D9; /* button text/border — deep enough for AA contrast on --base */
+  --violet-hover: #5B21B6; /* button hover */
   --lime:         #C3F73A; /* chartreuse accent — blobs, thin accent lines, never body text */
 
   --text-muted: rgba(27, 22, 37, 0.62); /* derived from --ink, for body copy */
   --hairline:   rgba(27, 22, 37, 0.10);
 
-  --glass-bg:     rgba(255, 255, 255, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.6);
-  --glass-shadow: rgba(58, 21, 104, 0.12);
+  --glass-bg:     rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.65);
+  --glass-shadow: rgba(58, 21, 104, 0.16);
 
   --font-display: 'Bricolage Grotesque', sans-serif;
   --font-body: 'Work Sans', sans-serif;
@@ -58,7 +59,7 @@ a {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -85,8 +86,12 @@ a {
 
 /* ============================================
    1b. BLOB FIELD — soft, blurred color accents living
-   behind all content. Fixed so they never duplicate per
-   section; drift is driven by scroll via GSAP ScrollTrigger.
+   behind everything. Fixed, so they never duplicate per
+   section, and free to spill outside the rounded glass
+   cards' edges (that spillover, visible in the gaps
+   around/between cards, is what sells the "lava lamp"
+   feel from the reference). Drift is tied to scroll via
+   GSAP ScrollTrigger scrub — see initBlobDrift in script.js.
    ============================================ */
 
 .blob-field {
@@ -103,67 +108,116 @@ a {
   will-change: transform;
 }
 
-.blob--violet {
-  width: 620px;
-  height: 620px;
-  top: -120px;
-  left: -160px;
-  background: radial-gradient(circle at 35% 35%, #A78BFA 0%, var(--violet) 55%, #6D28D9 100%);
-  filter: blur(110px);
+.blob-1 {
+  width: 220px;
+  height: 220px;
+  top: -60px;
+  left: -60px;
+  background: radial-gradient(circle at 35% 35%, #C4B5FD 0%, var(--violet) 60%, #6D28D9 100%);
+  filter: blur(50px);
+  opacity: 0.75;
+}
+
+.blob-2 {
+  width: 520px;
+  height: 520px;
+  top: 140px;
+  left: -220px;
+  background: radial-gradient(circle at 40% 40%, #EEFFA8 0%, var(--lime) 55%, #9BD400 100%);
+  filter: blur(85px);
   opacity: 0.6;
 }
 
-.blob--lime {
-  width: 560px;
-  height: 560px;
+.blob-3 {
+  width: 640px;
+  height: 640px;
+  top: -180px;
+  right: -220px;
+  background: radial-gradient(circle at 35% 35%, #C4B5FD 0%, var(--violet) 55%, #6D28D9 100%);
+  filter: blur(95px);
+  opacity: 0.65;
+}
+
+.blob-4 {
+  width: 600px;
+  height: 600px;
+  bottom: -180px;
+  left: -180px;
+  background: radial-gradient(circle at 40% 40%, #EEFFA8 0%, var(--lime) 55%, #9BD400 100%);
+  filter: blur(90px);
+  opacity: 0.6;
+}
+
+.blob-5 {
+  width: 440px;
+  height: 440px;
   bottom: -140px;
+  right: 40px;
+  background: radial-gradient(circle at 35% 35%, #C4B5FD 0%, var(--violet) 55%, #6D28D9 100%);
+  filter: blur(85px);
+  opacity: 0.65;
+}
+
+.blob-6 {
+  width: 360px;
+  height: 360px;
+  bottom: -160px;
   right: -140px;
-  background: radial-gradient(circle at 40% 40%, #E3FF8C 0%, var(--lime) 55%, #9BD400 100%);
-  filter: blur(100px);
-  opacity: 0.55;
+  background: radial-gradient(circle at 40% 40%, #EEFFA8 0%, var(--lime) 55%, #9BD400 100%);
+  filter: blur(75px);
+  opacity: 0.6;
 }
 
 
 /* ============================================
-   2. GLASS PANEL — the frosted-card recipe used by
-   Services, About, and Contact. Hero stays unboxed.
+   2. GLASS PANEL — a contained, rounded card with a
+   visible gap around it (not edge-to-edge), so blobs
+   show through the frosted surface AND spill into view
+   around its edges. Applied to the header, hero, and
+   each content section.
    ============================================ */
 
 .glass-panel {
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
   background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(28px) saturate(150%);
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
   border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  box-shadow: 0 20px 60px -20px var(--glass-shadow), 0 4px 16px -8px rgba(27, 22, 37, 0.06);
+  border-radius: 36px;
+  box-shadow: 0 30px 80px -30px var(--glass-shadow), 0 8px 24px -12px rgba(27, 22, 37, 0.08);
 }
 
 
 /* ============================================
-   3. BUTTONS
+   3. BUTTONS — outlined pill, matching the reference's
+   lighter, airier CTA treatment (not a solid block).
    ============================================ */
 
 .btn {
   display: inline-block;
-  padding: 18px 34px;
+  padding: 16px 34px;
   font-weight: 700;
   font-family: var(--font-body);
   font-size: 1rem;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  border-radius: 999px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-primary {
-  background-color: var(--violet-deep);
-  color: #FFFFFF;
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 24px -8px rgba(109, 40, 217, 0.45);
+  background: transparent;
+  color: var(--violet-deep);
+  border: 1.5px solid var(--violet-deep);
 }
 
 .btn-primary:hover {
-  background-color: var(--violet-hover);
+  background: rgba(109, 40, 217, 0.08);
+  color: var(--violet-hover);
+  border-color: var(--violet-hover);
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 14px 34px -8px rgba(109, 40, 217, 0.55);
+  box-shadow: 0 10px 28px -12px rgba(109, 40, 217, 0.35);
 }
 
 .btn-primary:focus-visible {
@@ -173,28 +227,26 @@ a {
 
 
 /* ============================================
-   4. HEADER — floating glass bar, not in normal flow,
-   so the hero below can genuinely fill the viewport.
+   4. HEADER — a small floating glass pill, fixed,
+   sitting in the same visual language as the section
+   cards below it rather than a hard edge-to-edge bar.
    ============================================ */
 
 .site-header {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 16px;
+  left: 16px;
+  right: 16px;
   z-index: 20;
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border-bottom: 1px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 0 12px;
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 22px;
-  padding-bottom: 22px;
+  padding: 16px 20px;
 }
 
 .logo {
@@ -265,9 +317,9 @@ a {
 
 
 /* ============================================
-   5. HERO — full-screen, unboxed, headline-first.
-   The floating header overlays this rather than
-   pushing it down, so 100vh really is one screen.
+   5. HERO — a tall rounded glass card, nearly filling
+   the viewport (minus the floating header + margins),
+   headline-first.
    ============================================ */
 
 .hero {
@@ -275,9 +327,12 @@ a {
   z-index: 1;
   display: grid;
   align-items: center;
-  min-height: 100vh;
-  min-height: 100dvh;
-  padding-top: calc(var(--header-h) + 40px);
+  margin-top: calc(var(--header-h) + 28px);
+  margin-bottom: 20px;
+  min-height: calc(100vh - var(--header-h) - 48px);
+  min-height: calc(100dvh - var(--header-h) - 48px);
+  padding: 64px 56px;
+  overflow: hidden;
 }
 
 .kicker {
@@ -295,22 +350,19 @@ a {
   font-size: clamp(3.25rem, 11vw, 8.5rem);
   line-height: 0.94;
   letter-spacing: -0.02em;
-  color: var(--deep-purple);
 }
 
 .hero-headline .line {
   display: block;
   opacity: 0;
+  color: var(--deep-purple);
 }
 
-/* Highlight device: an underline accent, not a recolor — the word stays
-   the same deep-purple as the rest of the headline (guaranteed contrast)
-   while the lime underline still calls it out. */
-.hero-headline .hl {
-  text-decoration: underline;
-  text-decoration-color: var(--lime);
-  text-decoration-thickness: 0.07em;
-  text-underline-offset: 0.1em;
+/* The reference's two-tone headline: the second line drops to a lighter
+   lavender rather than picking out a single word — a whole-line contrast
+   instead of a highlight chip or underline. */
+.hero-headline .line:nth-child(2) {
+  color: var(--soft-lavender);
 }
 
 .hero-foot {
@@ -332,13 +384,15 @@ a {
 
 
 /* ============================================
-   6. SERVICES — a grid of glass cards, not stacked rows
+   6. SERVICES — a grid of cards inside one rounded
+   glass section-card.
    ============================================ */
 
 .services {
   position: relative;
   z-index: 1;
-  padding: 140px 0;
+  margin-bottom: 20px;
+  padding: 100px 0;
   scroll-margin-top: calc(var(--header-h) + 24px);
 }
 
@@ -349,15 +403,22 @@ a {
   margin-top: 12px;
 }
 
+/* No backdrop-filter here — the section behind it is already blurred glass;
+   stacking a second blur on top would just look muddy. A light tint/border/
+   shadow is enough to read as a distinct card sitting on that surface. */
 .service-card {
   overflow: hidden;
   border-radius: 20px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 10px 30px -14px rgba(58, 21, 104, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .service-card:hover {
   transform: translateY(-6px) scale(1.015);
-  box-shadow: 0 28px 70px -20px var(--glass-shadow), 0 8px 20px -8px rgba(27, 22, 37, 0.1);
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 20px 46px -16px rgba(58, 21, 104, 0.2);
 }
 
 .service-photo {
@@ -399,22 +460,21 @@ a {
 
 
 /* ============================================
-   7. ABOUT — photo + glass panel, no more inverted
-   dark block. Continuous with the rest of the page.
+   7. ABOUT — photo + text inside one rounded glass card.
    ============================================ */
 
 .about {
   position: relative;
   z-index: 1;
-  padding: 60px 0 140px;
+  margin-bottom: 20px;
+  padding: 0;
+  overflow: hidden;
   scroll-margin-top: calc(var(--header-h) + 24px);
 }
 
 .about-panel {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
-  overflow: hidden;
-  padding: 0;
 }
 
 .about-photo-wrap {
@@ -459,7 +519,8 @@ a {
 .contact {
   position: relative;
   z-index: 1;
-  padding: 60px 0 140px;
+  margin-bottom: 20px;
+  padding: 0;
   scroll-margin-top: calc(var(--header-h) + 24px);
 }
 
@@ -467,7 +528,7 @@ a {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 64px;
-  padding: 64px;
+  padding: 72px 64px;
 }
 
 .contact h2 {
@@ -540,16 +601,14 @@ a {
 
 
 /* ============================================
-   9. FOOTER — transparent, continuous with the page,
-   not a boxed-off dark block.
+   9. FOOTER — the same glass-card language, smaller.
    ============================================ */
 
 .site-footer {
   position: relative;
   z-index: 1;
-  background: transparent;
-  border-top: 1px solid var(--hairline);
-  padding: 32px 0;
+  margin-bottom: 20px;
+  padding: 26px 8px;
 }
 
 .footer-inner {
@@ -558,6 +617,7 @@ a {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
+  padding: 0 24px;
 }
 
 .footer-inner .mono-label {
@@ -630,10 +690,14 @@ a {
     padding: 40px;
   }
 
-  .blob--violet,
-  .blob--lime {
+  .blob-2, .blob-3, .blob-4 {
     width: 380px;
     height: 380px;
+  }
+
+  .blob-5, .blob-6 {
+    width: 260px;
+    height: 260px;
   }
 }
 
@@ -642,14 +706,20 @@ a {
     padding: 0 20px;
   }
 
+  .glass-panel {
+    border-radius: 24px;
+  }
+
+  .hero {
+    padding: 44px 28px;
+  }
+
   .hero-foot {
     margin-top: 44px;
     padding-top: 28px;
   }
 
-  .services,
-  .about,
-  .contact {
+  .services {
     padding: 60px 0;
   }
 
@@ -657,7 +727,15 @@ a {
     padding: 28px;
   }
 
+  .site-header {
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    border-radius: 22px;
+  }
+
   .header-inner {
+    padding: 12px 16px;
     gap: 12px;
   }
 
