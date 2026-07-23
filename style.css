@@ -3,18 +3,21 @@
    ============================================ */
 
 :root {
-  --paper: #F4F1E8;  /* off-white — base color, most of the page */
-  --ink:   #12120F;  /* near-black — text, borders, structural lines */
+  --base:  #FAFAFC;  /* near-white — page background, base layer under blobs/glass */
+  --ink:   #1B1625;  /* near-black w/ faint purple undertone — body text, headings, nav */
+  --deep-purple: #3A1568; /* hero headline color only */
 
-  --olive: #5C6B32;  /* primary accent — buttons, key highlights, small shapes */
-  --moss:  #3A4322;  /* deep olive — accent depth/hover, pairs with olive */
-  --plum:  #5A3B52;  /* secondary accent — used sparingly, for a rare pop */
-  --bone:  #D9D2BC;  /* subtle neutral — quiet fills, not a "color" moment */
+  --violet:       #8B5CF6; /* vibrant accent — blobs + small decorative use only, never text-on-fill */
+  --violet-deep:  #6D28D9; /* button fill — deep enough for white text at AA contrast */
+  --violet-hover: #5B21B6; /* button hover — darkens further */
+  --lime:         #C3F73A; /* chartreuse accent — blobs, thin accent lines, never body text */
 
-  --text-muted:         rgba(18, 18, 15, 0.62);   /* muted ink, for body copy on paper */
-  --text-muted-inverse: rgba(244, 241, 232, 0.65); /* muted paper, for body copy on ink */
-  --hairline:        rgba(18, 18, 15, 0.14);
-  --hairline-invert: rgba(244, 241, 232, 0.16);
+  --text-muted: rgba(27, 22, 37, 0.62); /* derived from --ink, for body copy */
+  --hairline:   rgba(27, 22, 37, 0.10);
+
+  --glass-bg:     rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shadow: rgba(58, 21, 104, 0.12);
 
   --font-display: 'Bricolage Grotesque', sans-serif;
   --font-body: 'Work Sans', sans-serif;
@@ -36,7 +39,7 @@ html {
 body {
   font-family: var(--font-body);
   color: var(--ink);
-  background-color: var(--paper);
+  background-color: var(--base);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -75,65 +78,69 @@ a {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--olive);
+  color: var(--violet-deep);
   margin-bottom: 22px;
 }
 
-.eyebrow--dark {
-  color: var(--bone);
-}
-
-/* The single highlight device — a marker-block behind one word.
-   Used exactly once, in the hero, so it stays a signature and not a habit —
-   and the natural home for the secondary accent, since it never repeats. */
-.hl {
-  background: var(--plum);
-  color: var(--paper);
-  padding: 0 0.1em;
-  display: inline-block;
-  transform: rotate(-2deg);
-}
-
 
 /* ============================================
-   1b. SHAPES — the Memphis signature: scattered,
-   asymmetric, decorative-only geometry.
+   1b. BLOB FIELD — soft, blurred color accents living
+   behind all content. Fixed so they never duplicate per
+   section; drift is driven by scroll via GSAP ScrollTrigger.
    ============================================ */
 
-.shape {
-  position: absolute;
+.blob-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
   pointer-events: none;
-  z-index: 0;
-  display: block;
 }
 
-.shape--circle {
+.blob {
+  position: absolute;
   border-radius: 50%;
+  will-change: transform;
 }
 
-.shape--triangle {
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+.blob--violet {
+  width: 620px;
+  height: 620px;
+  top: -120px;
+  left: -160px;
+  background: radial-gradient(circle at 35% 35%, #A78BFA 0%, var(--violet) 55%, #6D28D9 100%);
+  filter: blur(110px);
+  opacity: 0.6;
 }
 
-.is-olive { background: var(--olive); color: var(--olive); }
-.is-moss  { background: var(--moss);  color: var(--moss); }
-.is-plum  { background: var(--plum);  color: var(--plum); }
-.is-bone  { background: var(--bone);  color: var(--bone); }
-
-/* Inline marker dot used next to service headings — not absolutely positioned */
-.service-shape {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  margin-right: 12px;
-  vertical-align: middle;
-  transform: translateY(-2px);
+.blob--lime {
+  width: 560px;
+  height: 560px;
+  bottom: -140px;
+  right: -140px;
+  background: radial-gradient(circle at 40% 40%, #E3FF8C 0%, var(--lime) 55%, #9BD400 100%);
+  filter: blur(100px);
+  opacity: 0.55;
 }
 
 
 /* ============================================
-   2. BUTTONS
+   2. GLASS PANEL — the frosted-card recipe used by
+   Services, About, and Contact. Hero stays unboxed.
+   ============================================ */
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px -20px var(--glass-shadow), 0 4px 16px -8px rgba(27, 22, 37, 0.06);
+}
+
+
+/* ============================================
+   3. BUTTONS
    ============================================ */
 
 .btn {
@@ -147,34 +154,39 @@ a {
 }
 
 .btn-primary {
-  background-color: var(--olive);
-  color: var(--paper);
-  border: 3px solid var(--ink);
-  box-shadow: 5px 5px 0 var(--ink);
+  background-color: var(--violet-deep);
+  color: #FFFFFF;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 24px -8px rgba(109, 40, 217, 0.45);
 }
 
 .btn-primary:hover {
-  background-color: var(--moss);
-  transform: translate(-3px, -3px) rotate(-1deg);
-  box-shadow: 8px 8px 0 var(--ink);
+  background-color: var(--violet-hover);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 14px 34px -8px rgba(109, 40, 217, 0.55);
 }
 
 .btn-primary:focus-visible {
-  outline: 3px solid var(--ink);
+  outline: 2px solid var(--violet-deep);
   outline-offset: 3px;
 }
 
 
 /* ============================================
-   3. HEADER
+   4. HEADER — floating glass bar, not in normal flow,
+   so the hero below can genuinely fill the viewport.
    ============================================ */
 
 .site-header {
-  background-color: var(--paper);
-  border-bottom: 3px solid var(--ink);
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .header-inner {
@@ -205,7 +217,7 @@ a {
 .logo-chip {
   width: 12px;
   height: 12px;
-  background: var(--olive);
+  background: var(--violet);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   margin-left: 4px;
   transform: translateY(-10px) rotate(8deg);
@@ -213,13 +225,6 @@ a {
 
 .logo--small {
   font-size: 1.1rem;
-  color: var(--paper);
-}
-
-/* Footer's chip echoes the hero highlight — a small closing bookend for
-   the one place plum is allowed to repeat. */
-.logo--small .logo-chip {
-  background: var(--plum);
 }
 
 .nav {
@@ -247,8 +252,8 @@ a {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 3px;
-  background: var(--olive);
+  height: 2px;
+  background: var(--violet);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.25s ease;
@@ -260,46 +265,19 @@ a {
 
 
 /* ============================================
-   4. HERO — the headline is the design
+   5. HERO — full-screen, unboxed, headline-first.
+   The floating header overlays this rather than
+   pushing it down, so 100vh really is one screen.
    ============================================ */
 
 .hero {
   position: relative;
-  overflow: hidden;
-  background-color: var(--paper);
+  z-index: 1;
   display: grid;
   align-items: center;
-  padding: 60px 0;
-  min-height: calc(100vh - var(--header-h));
-  min-height: calc(100dvh - var(--header-h));
-}
-
-.hero .container {
-  position: relative;
-  z-index: 1;
-}
-
-.hero-shape-1 {
-  width: 120px;
-  height: 120px;
-  top: 6%;
-  right: 8%;
-}
-
-.hero-shape-2 {
-  width: 64px;
-  height: 64px;
-  top: 62%;
-  left: 3%;
-  transform: rotate(-10deg);
-}
-
-.hero-shape-3 {
-  width: 150px;
-  height: auto;
-  bottom: 6%;
-  right: 22%;
-  opacity: 0.85;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding-top: calc(var(--header-h) + 40px);
 }
 
 .kicker {
@@ -308,7 +286,7 @@ a {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--olive);
+  color: var(--violet-deep);
   margin-bottom: 28px;
   opacity: 0;
 }
@@ -317,6 +295,7 @@ a {
   font-size: clamp(3.25rem, 11vw, 8.5rem);
   line-height: 0.94;
   letter-spacing: -0.02em;
+  color: var(--deep-purple);
 }
 
 .hero-headline .line {
@@ -324,8 +303,14 @@ a {
   opacity: 0;
 }
 
+/* Highlight device: an underline accent, not a recolor — the word stays
+   the same deep-purple as the rest of the headline (guaranteed contrast)
+   while the lime underline still calls it out. */
 .hero-headline .hl {
-  padding: 0 0.08em;
+  text-decoration: underline;
+  text-decoration-color: var(--lime);
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.1em;
 }
 
 .hero-foot {
@@ -336,7 +321,6 @@ a {
   flex-wrap: wrap;
   margin-top: 64px;
   padding-top: 40px;
-  border-top: 3px solid var(--ink);
   opacity: 0;
 }
 
@@ -348,149 +332,148 @@ a {
 
 
 /* ============================================
-   5. SERVICES
+   6. SERVICES — a grid of glass cards, not stacked rows
    ============================================ */
 
 .services {
-  padding: 110px 0 40px;
-}
-
-.service-row {
   position: relative;
+  z-index: 1;
+  padding: 140px 0;
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+
+.service-grid {
   display: grid;
-  grid-template-columns: minmax(220px, 0.9fr) 1.3fr;
-  gap: 40px;
-  padding: 48px 0;
-  border-bottom: 3px solid var(--ink);
-  cursor: default;
-  opacity: 0;
-  transform: translateY(18px);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 12px;
 }
 
-.service-row::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 100vmax;
-  transform: translateX(-50%);
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.25s ease;
+.service-card {
+  overflow: hidden;
+  border-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.service-row::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
+.service-card:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 28px 70px -20px var(--glass-shadow), 0 8px 20px -8px rgba(27, 22, 37, 0.1);
 }
 
-.service-row::before { background: var(--olive); }
-.service-row::after  { background: var(--olive); }
-
-.service-row:hover::before,
-.service-row:hover::after {
-  opacity: 1;
-  transform: scaleX(1);
+.service-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
 }
 
-.service-row:hover {
-  color: var(--paper);
+.service-card-body {
+  padding: 28px 26px 32px;
 }
 
-.service-row:hover p {
-  color: rgba(244, 241, 232, 0.78);
-}
-
-.service-row h3 {
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
+.service-card h3 {
+  font-size: clamp(1.3rem, 2.2vw, 1.7rem);
   display: flex;
   align-items: center;
+  margin-bottom: 12px;
 }
 
-.service-row p {
+.service-card p {
   color: var(--text-muted);
-  font-size: 1.05rem;
-  max-width: 46ch;
-  transition: color 0.25s ease;
+  font-size: 1rem;
 }
+
+.service-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 10px;
+  vertical-align: middle;
+  transform: translateY(-1px);
+}
+
+.is-violet { background: var(--violet); }
+.is-lime   { background: var(--lime); }
+.is-ink    { background: var(--ink); opacity: 0.55; }
 
 
 /* ============================================
-   6. ABOUT
+   7. ABOUT — photo + glass panel, no more inverted
+   dark block. Continuous with the rest of the page.
    ============================================ */
 
 .about {
   position: relative;
+  z-index: 1;
+  padding: 60px 0 140px;
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+
+.about-panel {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
   overflow: hidden;
-  background-color: var(--ink);
-  color: var(--paper);
-  padding: 140px 0;
+  padding: 0;
 }
 
-.about-shape-1 {
-  width: 240px;
-  height: 240px;
-  top: -70px;
-  right: -70px;
-  opacity: 0.16;
+.about-photo-wrap {
+  height: 100%;
+  min-height: 420px;
 }
 
-.about-shape-2 {
-  width: 260px;
-  height: auto;
-  bottom: 30px;
-  left: -20px;
-  opacity: 0.2;
+.about-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .about-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
+  padding: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .about-lede {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2rem, 4.2vw, 3.4rem);
-  line-height: 1.15;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.2;
   letter-spacing: -0.01em;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+  color: var(--ink);
 }
 
 .about-body {
-  color: var(--text-muted-inverse);
+  color: var(--text-muted);
   font-size: 1.1rem;
-  max-width: 60ch;
 }
 
 
 /* ============================================
-   7. CONTACT
+   8. CONTACT
    ============================================ */
 
 .contact {
-  background-color: var(--paper);
-  padding: 140px 0;
+  position: relative;
+  z-index: 1;
+  padding: 60px 0 140px;
+  scroll-margin-top: calc(var(--header-h) + 24px);
 }
 
 .contact-inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 64px;
+  padding: 64px;
 }
 
 .contact h2 {
-  font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
   margin: 4px 0 24px;
+  color: var(--ink);
 }
 
 .contact-note {
@@ -502,7 +485,7 @@ a {
 .email-link {
   color: var(--ink);
   font-weight: 600;
-  border-bottom: 2px solid var(--olive);
+  border-bottom: 2px solid var(--violet-deep);
 }
 
 .contact-form {
@@ -546,9 +529,9 @@ a {
   outline: none;
 }
 
-.field:nth-of-type(1) input:focus { border-color: var(--olive); }
-.field:nth-of-type(2) input:focus { border-color: var(--moss); }
-.field:nth-of-type(3) textarea:focus { border-color: var(--plum); }
+.field:nth-of-type(1) input:focus { border-color: var(--violet); }
+.field:nth-of-type(2) input:focus { border-color: var(--lime); }
+.field:nth-of-type(3) textarea:focus { border-color: var(--deep-purple); }
 
 .contact-form button {
   margin-top: 8px;
@@ -557,13 +540,16 @@ a {
 
 
 /* ============================================
-   8. FOOTER
+   9. FOOTER — transparent, continuous with the page,
+   not a boxed-off dark block.
    ============================================ */
 
 .site-footer {
-  background-color: var(--ink);
-  border-top: 3px solid var(--plum);
-  padding: 28px 0;
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  border-top: 1px solid var(--hairline);
+  padding: 32px 0;
 }
 
 .footer-inner {
@@ -575,12 +561,12 @@ a {
 }
 
 .footer-inner .mono-label {
-  color: var(--text-muted-inverse);
+  color: var(--text-muted);
 }
 
 
 /* ============================================
-   9. MOTION PREFERENCES
+   10. MOTION PREFERENCES
    script.js adds this class when the user prefers reduced motion
    OR the GSAP CDN failed to load — one flag, one fallback state,
    so content can never end up stuck invisible.
@@ -593,8 +579,12 @@ a {
 .motion-disabled .kicker,
 .motion-disabled .hero-headline .line,
 .motion-disabled .hero-foot,
-.motion-disabled [data-reveal],
+.motion-disabled .services,
+.motion-disabled .about-panel,
+.motion-disabled .contact-inner,
+.motion-disabled [data-reveal-item],
 .motion-disabled .about-inner > *,
+.motion-disabled .about-photo,
 .motion-disabled .contact-intro > *,
 .motion-disabled .contact-form .field,
 .motion-disabled .contact-form button {
@@ -604,35 +594,46 @@ a {
 
 .motion-disabled .btn-primary,
 .motion-disabled .nav a span::after,
-.motion-disabled .service-row::before,
-.motion-disabled .service-row::after {
+.motion-disabled .service-card {
   transition: none;
+}
+
+.motion-disabled .blob {
+  transform: none !important;
 }
 
 
 /* ============================================
-   10. RESPONSIVE
+   11. RESPONSIVE
    ============================================ */
 
 @media (max-width: 900px) {
   .contact-inner {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 40px;
+    padding: 40px;
   }
 
-  .service-row {
+  .service-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
   }
 
-  .hero-shape-1 {
-    width: 90px;
-    height: 90px;
+  .about-panel {
+    grid-template-columns: 1fr;
   }
 
-  .about-shape-1 {
-    width: 180px;
-    height: 180px;
+  .about-photo-wrap {
+    min-height: 280px;
+  }
+
+  .about-inner {
+    padding: 40px;
+  }
+
+  .blob--violet,
+  .blob--lime {
+    width: 380px;
+    height: 380px;
   }
 }
 
@@ -641,19 +642,19 @@ a {
     padding: 0 20px;
   }
 
-  .hero {
-    padding: 40px 0;
-  }
-
   .hero-foot {
     margin-top: 44px;
     padding-top: 28px;
   }
 
+  .services,
   .about,
-  .contact,
-  .services {
-    padding: 80px 0;
+  .contact {
+    padding: 60px 0;
+  }
+
+  .contact-inner {
+    padding: 28px;
   }
 
   .header-inner {
@@ -676,16 +677,5 @@ a {
   .nav a {
     font-size: 0.68rem;
     letter-spacing: 0.03em;
-  }
-
-  .hero-shape-2,
-  .about-shape-2 {
-    display: none;
-  }
-
-  .hero-shape-3 {
-    width: 100px;
-    bottom: 4%;
-    right: 8%;
   }
 }

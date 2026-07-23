@@ -7,8 +7,9 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 const gsapAvailable = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
 const motionDisabled = prefersReducedMotion || !gsapAvailable;
 
-// The sticky header's real height shifts slightly once Google Fonts swap in,
-// so --header-h (used by the full-height hero) is measured, not hardcoded.
+// The floating header's real height shifts slightly once Google Fonts swap
+// in, so --header-h (used by scroll-margin-top and the hero's top padding)
+// is measured, not hardcoded.
 function syncHeaderHeight() {
   const header = document.querySelector('.site-header');
   const height = header.getBoundingClientRect().height;
@@ -30,9 +31,8 @@ if (motionDisabled) {
 } else {
   gsap.registerPlugin(ScrollTrigger);
   initHeroTimeline();
-  initAmbientDrift();
+  initBlobDrift();
   initScrollReveals();
-  initHoverEffects();
 }
 
 // ---- Hero entrance: headline, tagline, and button stagger in on load ----
@@ -49,52 +49,59 @@ function initHeroTimeline() {
     .fromTo('.hero-foot', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, '-=0.2');
 }
 
-// ---- Ambient hero shape drift: slow, continuous, never distracting ----
-// Independent tweens (not one shared timeline) with staggered durations/delays
-// so the shapes visibly desync rather than moving in lockstep. sine.inOut +
-// yoyo avoids a jump-cut at the loop boundary — reads as "breathing".
-function initAmbientDrift() {
-  gsap.to('.hero-shape-1', {
-    y: 18, x: 8, rotation: 6, duration: 7,
-    ease: 'sine.inOut', repeat: -1, yoyo: true,
+// ---- Blob drift: soft background color tied to scroll position ----
+// Each blob gets its own scrub tween across the whole page's scroll range,
+// so they drift continuously rather than looping — a background layer only,
+// never touching text or interactive elements (pointer-events:none on the
+// wrapper, z-index:-1 keeps them behind all content regardless of DOM order).
+function initBlobDrift() {
+  gsap.to('.blob--violet', {
+    x: 140, y: 220, scale: 1.15,
+    ease: 'none',
+    scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 1 },
   });
 
-  gsap.to('.hero-shape-3', {
-    x: 16, y: -10, duration: 8.5, delay: 1.2,
-    ease: 'sine.inOut', repeat: -1, yoyo: true,
-  });
-
-  // hero-shape-2 is display:none below 640px — scope its tween so it never
-  // runs against a hidden element.
-  gsap.matchMedia().add('(min-width: 641px)', () => {
-    gsap.to('.hero-shape-2', {
-      y: -14, rotation: -8, duration: 9, delay: 0.6,
-      ease: 'sine.inOut', repeat: -1, yoyo: true,
-    });
+  gsap.to('.blob--lime', {
+    x: -160, y: -260, scale: 1.1,
+    ease: 'none',
+    scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 1 },
   });
 }
 
-// ---- Scroll-triggered reveals through the rest of the page ----
-// All use fromTo for the same reason as the hero timeline above: these
-// targets are permanently opacity:0 in CSS, so .from() would have nothing
-// to animate to.
+// ---- Scroll-triggered reveals: a section-level fade-in, then a finer ----
+// ---- stagger for the content inside it. ----
+// All use fromTo for the same reason as the hero timeline above.
 function initScrollReveals() {
-  // Services — each row is its own trigger. Rows are spread down a tall
-  // section, so a single parent-with-stagger would fire row 2/3 too early.
-  gsap.utils.toArray('[data-reveal]').forEach((row) => {
-    gsap.fromTo(row,
-      { opacity: 0, y: 24 },
+  // Panel-level fade-ins — the "section transition" as the user scrolls
+  // from one section into the next.
+  gsap.utils.toArray('.services, .about-panel, .contact-inner').forEach((panel) => {
+    gsap.fromTo(panel,
+      { opacity: 0, y: 40 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.5,
+        duration: 0.7,
         ease: 'power2.out',
-        scrollTrigger: { trigger: row, start: 'top 85%', toggleActions: 'play none none none' },
+        scrollTrigger: { trigger: panel, start: 'top 82%', toggleActions: 'play none none none' },
       }
     );
   });
 
-  // About — a tight 3-child cluster (eyebrow, lede, body) under one container.
+  // Service cards — grid stagger, landing just after the panel fade above
+  // for a "panel arrives, then its cards settle in" compound effect.
+  gsap.fromTo('[data-reveal-item]',
+    { opacity: 0, y: 30 },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.55,
+      ease: 'power2.out',
+      stagger: { each: 0.12, from: 'start' },
+      scrollTrigger: { trigger: '.service-grid', start: 'top 80%', toggleActions: 'play none none none' },
+    }
+  );
+
+  // About text cluster (eyebrow, lede, body)
   gsap.fromTo('.about-inner > *',
     { opacity: 0, y: 24 },
     {
@@ -107,18 +114,17 @@ function initScrollReveals() {
     }
   );
 
-  // About's decorative shapes get subtle parallax instead of ambient drift —
-  // decorative layer only, small delta, never applied to text.
-  gsap.to('.about-shape-1', {
-    yPercent: 10,
-    ease: 'none',
-    scrollTrigger: { trigger: '.about', scrub: true },
-  });
-  gsap.to('.about-shape-2', {
-    yPercent: -8,
-    ease: 'none',
-    scrollTrigger: { trigger: '.about', scrub: true },
-  });
+  // About photo — a gentle settle (fade + scale down to 1) rather than a slide
+  gsap.fromTo('.about-photo',
+    { opacity: 0, scale: 1.06 },
+    {
+      opacity: 1,
+      scale: 1,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: '.about-panel', start: 'top 80%', toggleActions: 'play none none none' },
+    }
+  );
 
   // Contact — two staggered clusters: intro copy, then form fields.
   gsap.fromTo('.contact-intro > *',
@@ -148,17 +154,7 @@ function initScrollReveals() {
   // to gain from motion.
 }
 
-// ---- Hover polish: a lift on service-row cards ----
-// Buttons and nav links keep their existing CSS-transition hovers (already
-// compositor-friendly, no JS dependency). GSAP only owns `transform` here —
-// the color-fill hover stays on CSS ::before/::after, so there's no collision.
-function initHoverEffects() {
-  document.querySelectorAll('.service-row').forEach((row) => {
-    row.addEventListener('mouseenter', () => {
-      gsap.to(row, { y: -4, duration: 0.25, ease: 'power2.out' });
-    });
-    row.addEventListener('mouseleave', () => {
-      gsap.to(row, { y: 0, duration: 0.18, ease: 'power1.out' });
-    });
-  });
-}
+// Hover (cards, buttons, nav) is intentionally pure CSS — see .service-card:hover
+// and .btn-primary:hover in style.css. No JS-driven hover here: it would either
+// duplicate the CSS transform (double-animating the same property) or need its
+// own reduced-motion bookkeeping that CSS transitions get for free.

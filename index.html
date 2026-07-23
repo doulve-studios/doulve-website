@@ -15,8 +15,9 @@
   <noscript>
     <style>
       .kicker, .hero-headline .line, .hero-foot,
-      [data-reveal], .about-inner > *, .contact-intro > *,
-      .contact-form .field, .contact-form button {
+      .services, .about-panel, .contact-inner,
+      [data-reveal-item], .about-inner > *, .about-photo,
+      .contact-intro > *, .contact-form .field, .contact-form button {
         opacity: 1 !important;
         transform: none !important;
       }
@@ -24,6 +25,12 @@
   </noscript>
 </head>
 <body>
+
+  <!-- ===== BLOB FIELD — fixed, decorative, behind everything ===== -->
+  <div class="blob-field" aria-hidden="true">
+    <div class="blob blob--violet"></div>
+    <div class="blob blob--lime"></div>
+  </div>
 
   <!-- ===== HEADER ===== -->
   <header class="site-header">
@@ -42,11 +49,6 @@
 
   <!-- ===== HERO ===== -->
   <section id="top" class="hero">
-    <span class="shape shape--circle is-bone hero-shape-1" aria-hidden="true"></span>
-    <span class="shape shape--triangle is-olive hero-shape-2" aria-hidden="true"></span>
-    <svg class="shape hero-shape-3 is-plum" viewBox="0 0 120 40" fill="none" aria-hidden="true">
-      <path d="M2 20 Q 20 2, 38 20 T 74 20 T 110 20" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
-    </svg>
     <div class="container">
       <p class="kicker">Brand &nbsp;/&nbsp; Web &nbsp;/&nbsp; Media Buying</p>
 
@@ -70,73 +72,89 @@
     <div class="container">
       <p class="eyebrow">What we do</p>
 
-      <div class="service-row" data-reveal>
-        <h3><span class="service-shape is-olive" aria-hidden="true"></span>Brand Strategy</h3>
-        <p>Positioning, naming, and identity systems built to hold up across every touchpoint — not just a logo.</p>
-      </div>
+      <div class="service-grid" data-reveal-group>
+        <div class="service-card glass-panel" data-reveal-item>
+          <img class="service-photo" src="https://picsum.photos/seed/doulve-brand/640/480" alt="" loading="lazy" width="640" height="480">
+          <div class="service-card-body">
+            <h3><span class="service-dot is-violet" aria-hidden="true"></span>Brand Strategy</h3>
+            <p>Positioning, naming, and identity systems built to hold up across every touchpoint — not just a logo.</p>
+          </div>
+        </div>
 
-      <div class="service-row" data-reveal>
-        <h3><span class="service-shape is-moss" aria-hidden="true"></span>Website Design</h3>
-        <p>Custom, high-converting websites designed to turn visitors into customers.</p>
-      </div>
+        <div class="service-card glass-panel" data-reveal-item>
+          <img class="service-photo" src="https://picsum.photos/seed/doulve-web/640/480" alt="" loading="lazy" width="640" height="480">
+          <div class="service-card-body">
+            <h3><span class="service-dot is-lime" aria-hidden="true"></span>Website Design</h3>
+            <p>Custom, high-converting websites designed to turn visitors into customers.</p>
+          </div>
+        </div>
 
-      <div class="service-row" data-reveal>
-        <h3><span class="service-shape is-bone" aria-hidden="true"></span>Performance Advertising</h3>
-        <p>Meta and Google campaigns engineered to reach the right audience and prove their ROI.</p>
+        <div class="service-card glass-panel" data-reveal-item>
+          <img class="service-photo" src="https://picsum.photos/seed/doulve-ads/640/480" alt="" loading="lazy" width="640" height="480">
+          <div class="service-card-body">
+            <h3><span class="service-dot is-ink" aria-hidden="true"></span>Performance Advertising</h3>
+            <p>Meta and Google campaigns engineered to reach the right audience and prove their ROI.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ===== ABOUT ===== -->
   <section id="about" class="about">
-    <span class="shape shape--circle is-olive about-shape-1" aria-hidden="true"></span>
-    <svg class="shape about-shape-2 is-bone" viewBox="0 0 100 20" fill="none" aria-hidden="true">
-      <path d="M0 10 L15 0 L30 10 L45 0 L60 10 L75 0 L90 10 L100 5" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <div class="container about-inner">
-      <p class="eyebrow eyebrow--dark">About Doulve</p>
-      <p class="about-lede">We learned brand-building behind the camera, not behind a dashboard.</p>
-      <p class="about-body">
-        Doulve was founded on a background in media production and digital
-        advertising. We've spent years behind the scenes helping brands tell
-        their story and reach the right audience — now we bring that same
-        experience to building websites and running ad campaigns that
-        actually perform.
-      </p>
+    <div class="container">
+      <div class="about-panel glass-panel">
+        <div class="about-photo-wrap">
+          <img class="about-photo" src="https://picsum.photos/seed/doulve-about/800/900" alt="" loading="lazy" width="800" height="900">
+        </div>
+        <div class="about-inner">
+          <p class="eyebrow">About Doulve</p>
+          <p class="about-lede">We learned brand-building behind the camera, not behind a dashboard.</p>
+          <p class="about-body">
+            Doulve was founded on a background in media production and digital
+            advertising. We've spent years behind the scenes helping brands tell
+            their story and reach the right audience — now we bring that same
+            experience to building websites and running ad campaigns that
+            actually perform.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ===== CONTACT ===== -->
   <section id="contact" class="contact">
-    <div class="container contact-inner">
-      <div class="contact-intro">
-        <p class="eyebrow">Get in touch</p>
-        <h2>Let's build<br>something.</h2>
-        <p class="contact-note">
-          Ready to grow your brand? Email
-          <a class="email-link" href="mailto:hello@doulve.com">hello@doulve.com</a>
-          or send a message.
-        </p>
+    <div class="container">
+      <div class="contact-inner glass-panel">
+        <div class="contact-intro">
+          <p class="eyebrow">Get in touch</p>
+          <h2>Let's build<br>something.</h2>
+          <p class="contact-note">
+            Ready to grow your brand? Email
+            <a class="email-link" href="mailto:hello@doulve.com">hello@doulve.com</a>
+            or send a message.
+          </p>
+        </div>
+
+        <form class="contact-form" action="#" method="POST">
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Send message</button>
+        </form>
       </div>
-
-      <form class="contact-form" action="#" method="POST">
-        <div class="field">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-
-        <div class="field">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-
-        <div class="field">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="4" required></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Send message</button>
-      </form>
     </div>
   </section>
 
